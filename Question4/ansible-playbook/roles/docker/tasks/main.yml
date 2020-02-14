@@ -1,0 +1,5 @@
+---
+# tasks file for docker
+- include: docker.yml
+  tags: docker-install
+

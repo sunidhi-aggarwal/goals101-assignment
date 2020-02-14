@@ -1,0 +1,37 @@
+---
+# tasks file for docker install
+- name: Docker | Check Ubuntu version == 18.04
+  fail:
+    msg: "{{ ansible_distribution_version }} is not an acceptable version of Ubuntu for this role"
+  when: ansible_distribution_version|version_compare(18.04, '!=')
+
+- name: Add Docker Group
+  group:
+     name: docker
+     state: present
+
+
+- name:  Install basic packages
+  apt: name={{ item }} state=present
+  with_items:
+     - apt-transport-https
+     - ca-certificates
+     - curl
+     - software-properties-common
+
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Docker | Add Docker repository and update apt cache
+  apt_repository:
+    repo: deb https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main
+    update_cache: yes
+    state: present
+
+- name: Install docker package
+  apt: name={{ item }} state=present update_cache=no cache_valid_time=3600
+  with_items: 
+    - docker.io
+

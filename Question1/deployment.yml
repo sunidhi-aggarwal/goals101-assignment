@@ -1,0 +1,40 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: jenkins-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+      - name: jenkins
+        image: jenkins/jenkins:lts
+        ports:
+          - name: http-port
+            containerPort: 8080
+          - name: jnlp-port
+            containerPort: 50000
+        readinessProbe:
+          httpGet:
+            path: /login
+            port: 8080
+        env:
+        - name: JENKINS_OPTS
+          valueFrom:
+            secretKeyRef:
+              name: jenkins
+              key: password.properties    
+        volumeMounts:
+        - mountPath: /var/jenkins_home
+          name: jenkins-persistent-storage
+        securityContext:
+          allowPrivilegeEscalation: false
+      volumes:
+        - name: jenkins-persistent-storage
+          persistentVolumeClaim:
+            claimName: jenkins-data      
+

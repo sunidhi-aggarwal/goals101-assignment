@@ -1,0 +1,5 @@
+---
+# vars file for apache
+apache_config_files:
+  - src: "apache2.conf"
+    dest: "/etc/apache2/apache2.conf"

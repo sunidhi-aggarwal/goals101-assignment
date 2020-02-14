@@ -1,0 +1,9 @@
+---
+- name: Ansible deployments
+  become: yes
+  hosts: local
+  gather_facts: true
+
+  roles:
+    - { role: apache, tags: apache-install }
+    - { role: docker, tags: docker-install }

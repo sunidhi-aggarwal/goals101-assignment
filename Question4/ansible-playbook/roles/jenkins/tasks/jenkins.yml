@@ -1,0 +1,22 @@
+---
+# tasks file for jenkins
+- name: Pull the latest official jenkins docker image
+  docker_image:
+    name: "jenkins:latest"
+    tags: jenkins-install
+
+
+- name: Create a container from the jenkins docker image
+  docker_container:
+    name: "jenkins-server"
+    image: "jenkins"
+    ports:
+        - "8080:8080"
+        - "50000:50000"
+    dns_servers: 
+      - "185.107.232.102"
+      - "185.107.232.2"  
+    volumes:
+        - "/data/jenkins_cron:/var/jenkins_home"
+    state: present
+    recreate: no

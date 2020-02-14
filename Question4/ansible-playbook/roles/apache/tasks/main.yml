@@ -1,0 +1,5 @@
+---
+# tasks file for apache
+- include: apache.yml
+  tags: apache-install
+

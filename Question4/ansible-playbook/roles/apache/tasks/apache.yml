@@ -1,0 +1,16 @@
+---
+# tasks file for apache
+- name: Install Apache
+  apt: name={{ item }} state=present update_cache=no cache_valid_time=3600
+  with_items: 
+    - apache2
+  tags: apache-install
+
+
+- name: Deploy Apache2 configuration files
+  copy: src={{ item.src }} dest={{ item.dest }} owner=root group=root
+  with_items: "{{ apache_config_files }}"
+  tags: apache-configuration
+  notify: Restart Apache2
+
+
