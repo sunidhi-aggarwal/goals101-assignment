@@ -1,0 +1,5 @@
+---
+# tasks file for jenkins
+- include: nginx.yml
+  tags: nginx-install
+

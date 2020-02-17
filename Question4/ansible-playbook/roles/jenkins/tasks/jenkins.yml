@@ -1,10 +1,16 @@
 ---
 # tasks file for jenkins
+#
+- name: Ensure jenkins directory on docker host
+  file:
+    state: directory
+    owner: 1000
+    group: 1000
+    path: /data/jenkins_cron
+
 - name: Pull the latest official jenkins docker image
   docker_image:
-    name: "jenkins:latest"
-    tags: jenkins-install
-
+    name: "jenkins"
 
 - name: Create a container from the jenkins docker image
   docker_container:
@@ -13,10 +19,11 @@
     ports:
         - "8080:8080"
         - "50000:50000"
-    dns_servers: 
+    dns_servers:
       - "185.107.232.102"
-      - "185.107.232.2"  
+      - "185.107.232.2"
     volumes:
         - "/data/jenkins_cron:/var/jenkins_home"
-    state: present
+    state: started
     recreate: no
+

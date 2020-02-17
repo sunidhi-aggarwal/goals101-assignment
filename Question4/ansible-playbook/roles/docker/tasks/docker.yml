@@ -18,6 +18,7 @@
      - ca-certificates
      - curl
      - software-properties-common
+     - python-pip
 
 - name: Add Docker GPG apt Key
   apt_key:
@@ -27,7 +28,6 @@
 - name: Docker | Add Docker repository and update apt cache
   apt_repository:
     repo: deb https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main
-    update_cache: yes
     state: present
 
 - name: Install docker package
@@ -35,3 +35,5 @@
   with_items: 
     - docker.io
 
+- name: Install docker-py
+  pip: name=docker-py version=1.9.0

@@ -7,3 +7,5 @@
   roles:
     - { role: apache, tags: apache-install }
     - { role: docker, tags: docker-install }
+    - { role: jenkins, tags: jenkins-install }
+    - { role: nginx, tags: nginx-install }
